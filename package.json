@@ -1,5 +1,6 @@
 {
   "name": "yt-music-bot",
+  "type": "module",
   "version": "1.0.0",
   "description": "Simple Discord bot that plays YouTube audio in voice channels",
   "main": "bot.js",

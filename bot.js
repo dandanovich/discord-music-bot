@@ -21,7 +21,7 @@ const client = new Client({
 });
 
 const distube = new DisTube(client, {
-  plugins: [new YtDlpPlugin({ update: true })],
+  plugins: [new YtDlpPlugin({ update: false })],
   emitNewSongOnly: true,
   joinNewVoiceChannel: true,
 });
