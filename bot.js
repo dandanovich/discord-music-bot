@@ -1,13 +1,13 @@
-require('dotenv').config();
-const { Client, GatewayIntentBits, SlashCommandBuilder, REST, Routes, EmbedBuilder } = require('discord.js');
-const { DisTube } = require('distube');
-const { YtDlpPlugin } = require('@distube/yt-dlp');
+import 'dotenv/config';
+import { Client, GatewayIntentBits, SlashCommandBuilder, REST, Routes, EmbedBuilder, Events } from 'discord.js';
+import { DisTube } from 'distube';
+import { YtDlpPlugin } from '@distube/yt-dlp';
 
 const TOKEN = process.env.DISCORD_TOKEN;
 const CLIENT_ID = process.env.CLIENT_ID;
 
 if (!TOKEN || !CLIENT_ID) {
-  console.error('Missing DISCORD_TOKEN or CLIENT_ID in .env');
+  console.error('Missing DISCORD_TOKEN or CLIENT_ID');
   process.exit(1);
 }
 
@@ -21,7 +21,7 @@ const client = new Client({
 });
 
 const distube = new DisTube(client, {
-  plugins: [new YtDlpPlugin({ update: false })],
+  plugins: [new YtDlpPlugin({ update: true })],
   emitNewSongOnly: true,
   joinNewVoiceChannel: true,
 });
@@ -49,7 +49,7 @@ distube
     queue.textChannel?.send('✅ Queue finished.');
   });
 
-client.once('clientReady', async () => {
+client.once(Events.ClientReady, async () => {
   console.log(`✅ Logged in as ${client.user.tag}`);
 
   const commands = [
@@ -73,7 +73,7 @@ client.once('clientReady', async () => {
   console.log('✅ Slash commands registered');
 });
 
-client.on('interactionCreate', async interaction => {
+client.on(Events.InteractionCreate, async interaction => {
   if (!interaction.isChatInputCommand()) return;
   const { commandName, guild, member } = interaction;
 
